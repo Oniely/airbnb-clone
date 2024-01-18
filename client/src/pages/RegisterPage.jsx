@@ -1,23 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState('');
 
   async function registerUser(e) {
     e.preventDefault();
 
     try {
       await axios.post("/register", { name, email, password });
-      alert("Registered Successfully!");
+      setRedirect('/login');
     } catch (error) {
       const { response: { data: { message } } } = error;
       console.log(error);
       alert(message);
     }
+  }
+
+  if (redirect) {
+    return <Navigate to={redirect} />
   }
 
   return (

@@ -10,15 +10,11 @@ const ProfilePage = () => {
   const { ready, user, setUser } = useContext(UserContext);
 
   if (!ready) {
-    return (
-      <Loading />
-    )
+    return <Loading />;
   }
-
   if (ready && !user && !redirect) {
-    return <Navigate to={"/login"} />;
+    return setRedirect("/login");
   }
-
   if (redirect) {
     return <Navigate to={redirect} />;
   }

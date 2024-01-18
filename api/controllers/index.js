@@ -1,8 +1,19 @@
 const User = require("../models/User");
 const Place = require("../models/Place");
+const Booking = require("../models/Booking");
 const { StatusCodes } = require("http-status-codes");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+function getUserDataFromToken(token) {
+	return new Promise((resolve, reject) => {
+		jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
+			if (err) reject(err);
+
+			resolve(userData);
+		});
+	});
+}
 
 // AUTH CONTROL
 const login = async (req, res) => {
@@ -63,7 +74,7 @@ const logout = async (req, res) => {
 };
 
 // PLACE CONTROL
-const places = async (req, res) => {
+const getPlaces = async (req, res) => {
 	try {
 		const places = await Place.find({});
 		res.status(StatusCodes.OK).json(places);
@@ -72,7 +83,7 @@ const places = async (req, res) => {
 	}
 };
 
-const place = async (req, res) => {
+const getPlace = async (req, res) => {
 	const { id } = req.params;
 
 	try {
@@ -83,10 +94,47 @@ const place = async (req, res) => {
 	}
 };
 
+// BOOKING CONTROL
+const bookPlace = async (req, res) => {
+	const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+		req.body;
+
+	try {
+		const userData = await getUserDataFromToken(req.cookies.token);
+		const bookPlace = await Booking.create({
+			user: userData.id,
+			place,
+			checkIn,
+			checkOut,
+			numberOfGuests,
+			name,
+			phone,
+			price,
+		});
+
+		res.status(StatusCodes.OK).json(bookPlace);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+};
+
+const getAllBookings = async (req, res) => {
+	try {
+		const userData = await getUserDataFromToken(req.cookies.token);
+		const bookings = await Booking.find({ user: userData.id }).populate('place');
+
+		res.status(StatusCodes.OK).json(bookings);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+};
+
 module.exports = {
 	login,
 	register,
 	logout,
-	places,
-	place,
+	getPlace,
+	getPlaces,
+	bookPlace,
+	getAllBookings,
 };

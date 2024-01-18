@@ -7,9 +7,10 @@ import Layout from "./components/Layout";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import PlacesPage from "./pages/PlacesPage";
-import BookingPage from "./pages/BookingPage";
+import BookingsPage from "./pages/BookingsPage";
 import PlacesFormPage from "./pages/PlacesFormPage";
 import PlacePage from "./pages/PlacePage";
+import BookingPage from "./pages/BookingPage";
 
 // adding a base URL for http request with axios
 // from: axios.get('http://localhost:4000/something')
@@ -27,7 +28,8 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<ProfilePage />} />
-          <Route path="/account/bookings" element={<BookingPage />} />
+          <Route path="/account/bookings" element={<BookingsPage />} />
+          <Route path="/account/booking/:id" element={<BookingPage />} />
           <Route path="/account/user-places" element={<PlacesPage />} />
           <Route path="/account/user-places/new" element={<PlacesFormPage />} />
           <Route path="/account/user-places/:id" element={<PlacesFormPage />} />
