@@ -116,9 +116,8 @@ const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
               <button
                 type="button"
                 onClick={() => selectAsMainPhoto(link)}
-                className={`${
-                  link === addedPhotos[0] ? "text-yellow-300" : ""
-                } absolute bottom-1 left-1 rounded-xl bg-black bg-opacity-20 px-3 py-2 text-white hover:bg-opacity-50 hover:text-yellow-300`}
+                className={`${link === addedPhotos[0] ? "text-yellow-300" : ""
+                  } absolute bottom-1 left-1 rounded-xl bg-black bg-opacity-20 px-3 py-2 text-white hover:bg-opacity-50 hover:text-yellow-300`}
               >
                 {link === addedPhotos[0] ? (
                   <svg
@@ -152,7 +151,7 @@ const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
               </button>
             </div>
           ))}
-        <label className="flex h-48 cursor-pointer items-center justify-center gap-1 rounded-2xl border bg-transparent p-8 text-2xl text-gray-600">
+        <label className="flex h-44 cursor-pointer items-center justify-center gap-1 rounded-2xl border bg-transparent p-8 text-2xl text-gray-600">
           <input
             type="file"
             multiple
